@@ -26,6 +26,8 @@ df["Surface Carrez du 2eme lot"] = df["Surface Carrez du 2eme lot"].str.replace(
 df["Surface Carrez du 3eme lot"] = df["Surface Carrez du 3eme lot"].str.replace(',','.').astype(float)
 df["Surface Carrez du 4eme lot"] = df["Surface Carrez du 4eme lot"].str.replace(',','.').astype(float)
 df["Surface Carrez du 5eme lot"] = df["Surface Carrez du 5eme lot"].str.replace(',','.').astype(float)
+df["Valeur fonciere"] = df["Valeur fonciere"].str.replace(',', '.').astype(float)
+
 df = df.fillna(0)
 df = df.loc[(df["Surface Carrez du 1er lot"] != 0 )| (df["Surface Carrez du 2eme lot"] != 0)|(df["Surface Carrez du 3eme lot"] != 0)|(df["Surface Carrez du 4eme lot"] != 0)|(df["Surface Carrez du 5eme lot"] != 0)]
 print(df["Code type local"].head())
@@ -34,7 +36,7 @@ df["ID"] = df["Code departement"].map(str) + df["Code commune"].map(str) + df["P
 print(df.shape)
 print(df["ID"].nunique())
 df["SurfaceCarrez"] = df["Surface Carrez du 1er lot"].astype(float) + df["Surface Carrez du 2eme lot"].astype(float)+df["Surface Carrez du 3eme lot"].astype(float) +df["Surface Carrez du 4eme lot"].astype(float) +df["Surface Carrez du 5eme lot"].astype(float)
-df["Valeur fonciere"] = df["Valeur fonciere"].str.replace(',', '.').astype(float)
+
 df = df.fillna(0)
 df = df.loc[df["Valeur fonciere"] > 0]
 df["PrixM2"] = df["Valeur fonciere"]  / df["SurfaceCarrez"]
