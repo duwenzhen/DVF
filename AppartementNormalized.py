@@ -20,32 +20,60 @@ dtype_df.columns = ["Count", "Column Type"]
 print(dtype_df)
 
 
-print(df["PrixM2"].median())
 
+grouped = df.groupby(["Code departement"])['PrixM2']
+tmp = grouped.agg([np.median, np.mean, np.std])
 
-tmp = df.groupby(["Code departement"])['PrixM2'].agg([np.median, np.mean, np.std])
-#tmp = df[["Code departement",'PrixM2']]
-
-
-#plt.figure(figsize=(24,12))
-#sns.boxplot(x = tmp["Code departement"], y= df.groupby(["Code departement"])['PrixM2'])
-
-#sns.barplot(tmp.index, tmp.values, alpha=0.8, color=color[3])
-#sns.violinplot(
-#    x='Code departement',
-#    y='PrixM2',
-#    data=tmp.groupby(["Code departement"])
-#)
-#plt.xticks(rotation='vertical')
-#plt.xlabel('Price', fontsize=12)
-#plt.ylabel('Date', fontsize=12)
-#plt.show()
-
-plt.figure(figsize=(12,6))
+#plt.figure(figsize=(12,6))
+plt.subplot(3, 1, 3)
 sns.barplot(tmp.index, tmp['std'], alpha=0.8, color=color[3])
-#sns.barplot(tmp.index, tmp['mean'], alpha=0.8, color=color[3])
-#sns.barplot(tmp.index, tmp['std'], alpha=0.8, color=color[3])
 plt.xticks(rotation='vertical')
-plt.xlabel('Price', fontsize=12)
-plt.ylabel('Date', fontsize=12)
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('standard deviation', fontsize=12)
+
+plt.subplot(3, 1, 1)
+sns.barplot(tmp.index, tmp['mean'], alpha=0.8, color=color[3])
+plt.xticks(rotation='vertical')
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('Mean Price', fontsize=12)
+
+plt.subplot(3, 1, 2)
+sns.barplot(tmp.index, tmp['median'], alpha=0.8, color=color[3])
+plt.xticks(rotation='vertical')
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('Median Price', fontsize=12)
+
+
+plt.show()
+
+
+
+
+df = df[df['PrixM2'] < df['PrixM2'].quantile(0.999)]
+df = df[df['PrixM2'] > df['PrixM2'].quantile(0.001)]
+
+
+grouped = df.groupby(["Code departement"])['PrixM2']
+tmp = grouped.agg([np.median, np.mean, np.std])
+
+#plt.figure(figsize=(12,6))
+plt.subplot(3, 1, 3)
+sns.barplot(tmp.index, tmp['std'], alpha=0.8, color=color[3])
+plt.xticks(rotation='vertical')
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('standard deviation', fontsize=12)
+
+plt.subplot(3, 1, 1)
+sns.barplot(tmp.index, tmp['mean'], alpha=0.8, color=color[3])
+plt.xticks(rotation='vertical')
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('Mean Price', fontsize=12)
+
+plt.subplot(3, 1, 2)
+sns.barplot(tmp.index, tmp['median'], alpha=0.8, color=color[3])
+plt.xticks(rotation='vertical')
+plt.xlabel('departement', fontsize=12)
+plt.ylabel('Median Price', fontsize=12)
+
+
 plt.show()
