@@ -7,10 +7,19 @@ color = sns.color_palette()
 import glob
 
 
-path = r"."
-df = pd.read_csv(path + "appartement.csv", index_col=None, header=0, sep='|')
+path = r""
+df = pd.read_csv(path + "appartement.csv", index_col=None, header=0, sep=',')
 df["Date mutation"] = pd.to_datetime(df["Date mutation"],format="%Y/%m/%d")
 df["YearMonth"] = df["Date mutation"].dt.strftime('%Y%m')
+
+
+dtype_df = df.dtypes.reset_index()
+dtype_df.columns = ["Count", "Column Type"]
+print(dtype_df)
+
+
+
+
 tmp = df.loc[df["Code departement"] == 75].groupby(['YearMonth'])['PrixM2'].count()
 
 
