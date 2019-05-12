@@ -23,6 +23,9 @@ for filename in all_files:
 df = pd.concat(li, axis=0, ignore_index=True)
 print(df.shape)
 
+CommuneDF = df['Commune'].unique()
+np.savetxt("commune.csv", CommuneDF, delimiter=",", fmt="%s")
+
 dtype_df = df.dtypes.reset_index()
 dtype_df.columns = ["Count", "Column Type"]
 dtype_df
